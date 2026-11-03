@@ -172,7 +172,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('filtro-busqueda').value = ''
     document.getElementById('filtro-categoria').value = ''
     document.getElementById('filtro-edad').value = ''
-    aplicarFiltros()
+    void aplicarFiltros().catch((error) => {
+      console.error('Error al aplicar los filtros del catálogo:', error)
+      document.getElementById('spinner-carga').classList.add('d-none')
+    })
   })
 
   document.getElementById('btn-vista-inicio').addEventListener('click', () => cambiarVista('inicio'))

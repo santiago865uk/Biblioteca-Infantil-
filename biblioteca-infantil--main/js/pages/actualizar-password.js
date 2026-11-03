@@ -36,7 +36,7 @@ async function verificarEnlaceRecuperacion() {
     }
   }
 
-  const sesion = await new Promise((resolve) => {
+  const sesion = await new Promise((resolve, reject) => {
     let resuelto = false
 
     const { data: suscripcion } = cliente.auth.onAuthStateChange((evento, sesionRecibida) => {
@@ -52,6 +52,12 @@ async function verificarEnlaceRecuperacion() {
         resuelto = true
         suscripcion.subscription.unsubscribe()
         resolve(sesionActual)
+      }
+    }).catch((error) => {
+      if (!resuelto) {
+        resuelto = true
+        suscripcion.subscription.unsubscribe()
+        reject(error)
       }
     })
 
@@ -85,7 +91,10 @@ function mostrarEnlaceInvalido(mensaje) {
   alertaError.classList.remove('d-none')
 }
 
-verificarEnlaceRecuperacion()
+void verificarEnlaceRecuperacion().catch((error) => {
+  console.error('Error al verificar el enlace de recuperación:', error)
+  mostrarEnlaceInvalido('No se pudo verificar el enlace de recuperación. Inténtalo de nuevo.')
+})
 
 // Aviso en vivo si las contraseñas dejan de coincidir mientras se escribe
 document.addEventListener('DOMContentLoaded', () => {

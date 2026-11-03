@@ -29,9 +29,11 @@ document.getElementById('form-login').addEventListener('submit', async (evento) 
 })
 
 // Si el usuario ya tiene sesión activa, lo mandamos directo a la biblioteca
-;(async () => {
+void (async () => {
   const sesion = await obtenerSesionActual()
   if (sesion) {
     window.location.href = 'biblioteca.html'
   }
-})()
+})().catch((error) => {
+  console.error('Error al comprobar la sesión activa:', error)
+})

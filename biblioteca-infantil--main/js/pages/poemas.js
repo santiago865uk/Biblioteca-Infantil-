@@ -90,6 +90,13 @@ async function cargarPoemas() {
   })
 }
 
+function cargarPoemasSinEsperar() {
+  void cargarPoemas().catch((error) => {
+    console.error('Error al cargar los poemas:', error)
+    document.getElementById('spinner-carga').classList.add('d-none')
+  })
+}
+
 /* ----------------------------------------------------------------------------
    PUBLICAR / EDITAR POEMA
    ---------------------------------------------------------------------------- */
@@ -147,7 +154,7 @@ function actualizarBotonLikePoema() {
 function pintarSelectorEstrellas(valorSeleccionado) {
   const estrellas = document.querySelectorAll('#selector-estrellas .estrella')
   estrellas.forEach((estrella) => {
-    const valor = parseInt(estrella.dataset.valor, 10)
+    const valor = Number.parseInt(estrella.dataset.valor, 10)
     estrella.classList.toggle('activa', valorSeleccionado && valor <= valorSeleccionado)
   })
 }
@@ -219,13 +226,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   // --- Filtros: búsqueda (con pequeño debounce) y orden ---
   document.getElementById('filtro-busqueda-poema').addEventListener('input', () => {
     clearTimeout(temporizadorBusquedaPoema)
-    temporizadorBusquedaPoema = setTimeout(cargarPoemas, 350)
+    temporizadorBusquedaPoema = setTimeout(cargarPoemasSinEsperar, 350)
   })
-  document.getElementById('filtro-orden-poema').addEventListener('change', cargarPoemas)
+  document.getElementById('filtro-orden-poema').addEventListener('change', cargarPoemasSinEsperar)
   document.getElementById('btn-limpiar-filtros-poema').addEventListener('click', () => {
     document.getElementById('filtro-busqueda-poema').value = ''
     document.getElementById('filtro-orden-poema').value = 'recientes'
-    cargarPoemas()
+    cargarPoemasSinEsperar()
   })
 
   // --- Contador de caracteres del textarea ---
@@ -336,7 +343,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const estrella = evento.target.closest('.estrella')
     if (!estrella || !perfilUsuarioActual || !poemaActual) return
 
-    const valor = parseInt(estrella.dataset.valor, 10)
+    const valor = Number.parseInt(estrella.dataset.valor, 10)
     const yaCalificado = calificacionUsuarioActual !== null
 
     const { error } = await calificarPoema(perfilUsuarioActual.id, poemaActual.id, valor, yaCalificado)

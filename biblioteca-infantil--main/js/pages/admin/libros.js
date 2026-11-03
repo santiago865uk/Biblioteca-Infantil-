@@ -185,10 +185,18 @@ async function buscarYMostrarSugerenciasAutor(texto) {
   contenedor.classList.remove('d-none')
 
   contenedor.querySelectorAll('[data-autor]').forEach((boton) => {
-    boton.addEventListener('click', () => seleccionarAutor(boton.dataset.autor))
+    boton.addEventListener('click', () => {
+      void seleccionarAutor(boton.dataset.autor).catch((error) => {
+        console.error('Error al seleccionar el autor:', error)
+      })
+    })
   })
   contenedor.querySelectorAll('[data-autor-nuevo]').forEach((boton) => {
-    boton.addEventListener('click', () => seleccionarAutor(boton.dataset.autorNuevo))
+    boton.addEventListener('click', () => {
+      void seleccionarAutor(boton.dataset.autorNuevo).catch((error) => {
+        console.error('Error al seleccionar el autor nuevo:', error)
+      })
+    })
   })
 }
 
@@ -273,7 +281,7 @@ function limpiarCampoAnio(input) {
 function validarAnioPublicacion(valor) {
   if (!valor) return { valor: null, error: null }
   if (!/^\d{1,4}$/.test(valor)) return { valor: null, error: 'El año solo puede tener números.' }
-  const numero = parseInt(valor, 10)
+  const numero = Number.parseInt(valor, 10)
   if (numero > 2027) return { valor: null, error: 'El año de publicación no puede ser mayor a 2027.' }
   return { valor: numero, error: null }
 }
@@ -374,7 +382,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const campoAutor = document.getElementById('campo-autor')
   campoAutor.addEventListener('input', () => {
     if (autorConfirmado) bloquearCampoTitulo()
-    buscarYMostrarSugerenciasAutor(campoAutor.value)
+    void buscarYMostrarSugerenciasAutor(campoAutor.value).catch((error) => {
+      console.error('Error al mostrar sugerencias de autor:', error)
+      document.getElementById('sugerencias-autor').classList.add('d-none')
+    })
   })
   campoAutor.addEventListener('blur', () => {
     // Pequeño margen para que el clic en una sugerencia se registre antes
@@ -456,8 +467,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // exige que sea mayor a 0, pero un libro VIP con costo 0 no tendría
     // sentido de negocio).
     const esVip = document.getElementById('campo-es-vip').checked
-    const costoCreditos = parseInt(document.getElementById('campo-costo-creditos').value, 10)
-    if (esVip && (isNaN(costoCreditos) || costoCreditos < 1)) {
+    const costoCreditos = Number.parseInt(document.getElementById('campo-costo-creditos').value, 10)
+    if (esVip && (Number.isNaN(costoCreditos) || costoCreditos < 1)) {
       mostrarError('Ingresa un costo en créditos válido (mínimo 1) para un libro VIP.')
       return
     }
