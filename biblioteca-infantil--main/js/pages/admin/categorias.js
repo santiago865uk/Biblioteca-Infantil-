@@ -83,14 +83,6 @@ async function confirmarEliminarCategoria(categoriaId, nombre) {
   await recargarCategorias()
 }
 
-function mostrarAlertaResultado(tipo, mensaje) {
-  const alerta = document.getElementById('alerta-resultado')
-  alerta.className = `alert alert-${tipo}`
-  alerta.textContent = mensaje
-  alerta.classList.remove('d-none')
-  setTimeout(() => alerta.classList.add('d-none'), 4000)
-}
-
 document.addEventListener('DOMContentLoaded', async () => {
   modalCategoria = new bootstrap.Modal(document.getElementById('modal-categoria'))
   document.getElementById('btn-nueva-categoria').addEventListener('click', limpiarFormularioCategoria)
