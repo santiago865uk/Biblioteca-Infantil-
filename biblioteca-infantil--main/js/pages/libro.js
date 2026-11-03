@@ -263,11 +263,13 @@ function alternarPantallaCompleta() {
   if (!elementoEnPantallaCompleta()) {
     const solicitar = tarjeta.requestFullscreen || tarjeta.webkitRequestFullscreen
     if (solicitar) {
-      solicitar.call(tarjeta).catch(() => {})
+      void solicitar.call(tarjeta).catch(() => {})
     }
   } else {
     const salir = document.exitFullscreen || document.webkitExitFullscreen
-    if (salir) salir.call(document)
+    if (salir) {
+      void salir.call(document)
+    }
   }
 }
 
