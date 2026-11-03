@@ -19,6 +19,16 @@ let autorConfirmado = false
 let libroEnEdicionId = null
 let numeroPaginasDetectado = null
 
+function escaparHtmlAdmin(valor) {
+  return String(valor ?? '').replace(/[&<>"']/g, (caracter) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  })[caracter])
+}
+
 /**
  * Pinta la tabla de libros.
  */
@@ -35,22 +45,22 @@ function renderizarTablaLibros(libros) {
       (libro) => `
       <tr>
         <td>
-          <img src="${libro.portada_url || '../images/portada-default.svg'}"
+          <img src="${escaparHtmlAdmin(libro.portada_url || '../images/portada-default.svg')}"
                alt="" style="width:40px;height:55px;object-fit:cover;border-radius:4px;"
                onerror="this.src='../images/portada-default.svg'">
         </td>
-        <td>${libro.titulo}</td>
-        <td>${libro.autor}</td>
-        <td>${libro.categories?.nombre || '—'}</td>
-        <td>${etiquetaEdad(libro.edad_recomendada)}</td>
-        <td><span class="badge badge-tipo-libro">PDF${libro.numero_paginas ? ` · ${libro.numero_paginas} pág.` : ''}</span></td>
+        <td>${escaparHtmlAdmin(libro.titulo)}</td>
+        <td>${escaparHtmlAdmin(libro.autor)}</td>
+        <td>${escaparHtmlAdmin(libro.categories?.nombre || '—')}</td>
+        <td>${escaparHtmlAdmin(etiquetaEdad(libro.edad_recomendada))}</td>
+        <td><span class="badge badge-tipo-libro">PDF${libro.numero_paginas ? ` · ${escaparHtmlAdmin(libro.numero_paginas)} pág.` : ''}</span></td>
         <td>${libro.publicado ? '<i class="bi bi-check-circle-fill text-success"></i>' : '<i class="bi bi-x-circle-fill text-danger"></i>'}</td>
         <td>${libro.destacado ? '<i class="bi bi-star-fill" style="color:#FFD23F;"></i>' : '—'}</td>
-        <td>${libro.es_vip ? `<span class="badge badge-vip"><i class="bi bi-gem"></i> ${libro.costo_creditos}</span>` : '—'}</td>
+        <td>${libro.es_vip ? `<span class="badge badge-vip"><i class="bi bi-gem"></i> ${escaparHtmlAdmin(libro.costo_creditos)}</span>` : '—'}</td>
         <td class="text-end">
           <div class="d-flex flex-wrap justify-content-end gap-2">
-            <button class="btn btn-sm btn-outline-primary" data-editar="${libro.id}">Editar</button>
-            <button class="btn btn-sm btn-outline-danger" data-eliminar="${libro.id}" data-titulo="${libro.titulo}">Eliminar</button>
+            <button class="btn btn-sm btn-outline-primary" data-editar="${escaparHtmlAdmin(libro.id)}">Editar</button>
+            <button class="btn btn-sm btn-outline-danger" data-eliminar="${escaparHtmlAdmin(libro.id)}" data-titulo="${escaparHtmlAdmin(libro.titulo)}">Eliminar</button>
           </div>
         </td>
       </tr>
@@ -87,7 +97,7 @@ async function cargarSelectCategorias() {
   categoriasDisponibles = await obtenerCategorias()
   const select = document.getElementById('campo-categoria')
   select.innerHTML = '<option value="">Sin categoría</option>' +
-    categoriasDisponibles.map((cat) => `<option value="${cat.id}">${cat.nombre}</option>`).join('')
+    categoriasDisponibles.map((cat) => `<option value="${escaparHtmlAdmin(cat.id)}">${escaparHtmlAdmin(cat.nombre)}</option>`).join('')
 }
 
 /* ============================================================================
@@ -123,9 +133,9 @@ async function mostrarInfoAutor(nombreAutor) {
     panel.innerHTML = `<i class="bi bi-info-circle"></i> Autor nuevo en el catálogo: se creará al guardar.`
   } else {
     panel.innerHTML = `
-      <strong><i class="bi bi-collection"></i> Otros libros de ${nombreAutor}:</strong>
+      <strong><i class="bi bi-collection"></i> Otros libros de ${escaparHtmlAdmin(nombreAutor)}:</strong>
       <ul class="mb-0 mt-1 ps-3">
-        ${libros.map((l) => `<li>${l.titulo}</li>`).join('')}
+        ${libros.map((libro) => `<li>${escaparHtmlAdmin(libro.titulo)}</li>`).join('')}
       </ul>
     `
   }
@@ -153,8 +163,8 @@ async function buscarYMostrarSugerenciasAutor(texto) {
   const opciones = resultados
     .map(
       (r) => `
-      <button type="button" data-autor="${r.autor.replace(/"/g, '&quot;')}">
-        ${r.autor} <span class="text-muted small">(${r.totalLibros} libro${r.totalLibros === 1 ? '' : 's'})</span>
+      <button type="button" data-autor="${escaparHtmlAdmin(r.autor)}">
+        ${escaparHtmlAdmin(r.autor)} <span class="text-muted small">(${escaparHtmlAdmin(r.totalLibros)} libro${r.totalLibros === 1 ? '' : 's'})</span>
       </button>
     `
     )
@@ -162,8 +172,8 @@ async function buscarYMostrarSugerenciasAutor(texto) {
 
   const opcionNuevo = coincidenciaExacta
     ? ''
-    : `<button type="button" class="opcion-autor-nuevo" data-autor-nuevo="${texto.trim().replace(/"/g, '&quot;')}">
-         <i class="bi bi-plus-circle"></i> Usar "${texto.trim()}" como autor nuevo
+      : `<button type="button" class="opcion-autor-nuevo" data-autor-nuevo="${escaparHtmlAdmin(texto.trim())}">
+        <i class="bi bi-plus-circle"></i> Usar "${escaparHtmlAdmin(texto.trim())}" como autor nuevo
        </button>`
 
   if (!opciones && !opcionNuevo) {
