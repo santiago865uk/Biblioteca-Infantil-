@@ -93,7 +93,7 @@ function mostrarEnlaceInvalido(mensaje) {
   alertaError.classList.remove('d-none')
 }
 
-verificarEnlaceRecuperacion()
+void verificarEnlaceRecuperacion()
 
 // Aviso en vivo si las contraseñas dejan de coincidir mientras se escribe
 document.addEventListener('DOMContentLoaded', () => {
