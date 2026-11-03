@@ -46,11 +46,11 @@
     <div class="card tarjeta-libro p-3 mb-4">
       <div class="row g-2 align-items-end">
         <div class="col-md-6">
-          <label class="form-label small mb-1">Buscar poema, autor o palabra clave</label>
+          <label for="filtro-busqueda-poema" class="form-label small mb-1">Buscar poema, autor o palabra clave</label>
           <input type="text" id="filtro-busqueda-poema" class="form-control" placeholder="Ej: luna, primavera, Andrea...">
         </div>
         <div class="col-md-4">
-          <label class="form-label small mb-1">Ordenar por</label>
+          <label for="filtro-orden-poema" class="form-label small mb-1">Ordenar por</label>
           <select id="filtro-orden-poema" class="form-select">
             <option value="recientes">Más recientes</option>
             <option value="populares">Más populares (me gusta)</option>
@@ -86,16 +86,16 @@
             <div id="alerta-error-poema" class="alert alert-danger d-none small"></div>
 
             <div class="mb-3">
-              <label class="form-label small">Título del poema *</label>
+              <label for="campo-titulo-poema" class="form-label small">Título del poema *</label>
               <input type="text" id="campo-titulo-poema" class="form-control" maxlength="150" required>
             </div>
             <div class="mb-3">
-              <label class="form-label small">Nombre del autor *</label>
+              <label for="campo-autor-poema" class="form-label small">Nombre del autor *</label>
               <input type="text" id="campo-autor-poema" class="form-control" maxlength="100" required
                      placeholder="Tu nombre o el de la persona autora">
             </div>
             <div class="mb-2">
-              <label class="form-label small">
+              <label for="campo-contenido-poema" class="form-label small">
                 Contenido del poema * <span id="contador-caracteres-poema" class="text-muted fw-normal">0 / 5000</span>
               </label>
               <textarea id="campo-contenido-poema" class="form-control" rows="10" maxlength="5000" required
@@ -187,7 +187,7 @@
           </div>
           <div class="modal-body">
             <div id="alerta-error-reporte" class="alert alert-danger d-none small"></div>
-            <label class="form-label small">Cuéntanos por qué quieres reportar este poema</label>
+            <label for="campo-motivo-reporte" class="form-label small">Cuéntanos por qué quieres reportar este poema</label>
             <textarea id="campo-motivo-reporte" class="form-control" rows="3" maxlength="300" required
                       placeholder="Ej: contenido inapropiado, spam, lenguaje ofensivo..."></textarea>
           </div>
