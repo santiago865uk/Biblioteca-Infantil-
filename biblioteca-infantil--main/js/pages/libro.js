@@ -323,7 +323,7 @@ function renderizarMarcadores(marcadores) {
   // Ir a la página al hacer clic en el marcador
   lista.querySelectorAll('[data-pagina]').forEach((elemento) => {
     elemento.addEventListener('click', () => {
-      renderizarPaginaPdf(parseInt(elemento.dataset.pagina, 10))
+      renderizarPaginaPdf(Number.parseInt(elemento.dataset.pagina, 10))
     })
   })
 
@@ -733,7 +733,7 @@ function mostrarPreguntaQuiz() {
 }
 
 function responderPreguntaQuiz(pregunta, botonElegido, contenedorOpciones) {
-  const indiceElegido = parseInt(botonElegido.dataset.indice, 10)
+  const indiceElegido = Number.parseInt(botonElegido.dataset.indice, 10)
   const opcionElegida = pregunta.opciones[indiceElegido]
 
   contenedorOpciones.querySelectorAll('.opcion-quiz').forEach((boton) => {
@@ -828,7 +828,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Tiñe el fondo de la página con el color dominante de la portada del
   // libro (efecto "plataforma de streaming"). No bloquea el resto de la
   // carga: se aplica en cuanto esté listo, en paralelo.
-  extraerColorDominante(libroActual.portada_url).then(aplicarColorDeFondo)
+  void extraerColorDominante(libroActual.portada_url)
+    .then(aplicarColorDeFondo)
+    .catch((error) => {
+      console.warn('No se pudo aplicar el color dominante de la portada:', error)
+    })
 
   // Progreso de lectura: continuar desde la última página visitada
   let paginaInicial = 1
@@ -909,7 +913,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!perfilUsuarioActual) return
 
     const inputPagina = document.getElementById('input-pagina-marcador')
-    const pagina = parseInt(inputPagina.value, 10) || paginaActual
+    const pagina = Number.parseInt(inputPagina.value, 10) || paginaActual
 
     await crearMarcador(perfilUsuarioActual.id, libroActual.id, pagina)
     inputPagina.value = ''

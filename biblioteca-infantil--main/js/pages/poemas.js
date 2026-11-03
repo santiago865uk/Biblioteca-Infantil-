@@ -147,7 +147,7 @@ function actualizarBotonLikePoema() {
 function pintarSelectorEstrellas(valorSeleccionado) {
   const estrellas = document.querySelectorAll('#selector-estrellas .estrella')
   estrellas.forEach((estrella) => {
-    const valor = parseInt(estrella.dataset.valor, 10)
+    const valor = Number.parseInt(estrella.dataset.valor, 10)
     estrella.classList.toggle('activa', valorSeleccionado && valor <= valorSeleccionado)
   })
 }
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const estrella = evento.target.closest('.estrella')
     if (!estrella || !perfilUsuarioActual || !poemaActual) return
 
-    const valor = parseInt(estrella.dataset.valor, 10)
+    const valor = Number.parseInt(estrella.dataset.valor, 10)
     const yaCalificado = calificacionUsuarioActual !== null
 
     const { error } = await calificarPoema(perfilUsuarioActual.id, poemaActual.id, valor, yaCalificado)
