@@ -50,7 +50,7 @@
           <div class="card tarjeta-libro p-3">
             <img id="img-portada" src="" alt="Portada" class="img-fluid rounded mb-3"
                  onerror="this.src='images/portada-default.svg'">
-            <h1 id="titulo-libro" class="h5 mb-1"></h1>
+            <h1 id="titulo-libro" class="h5 mb-1" aria-live="polite">Título del libro</h1>
             <p id="autor-libro" class="text-muted mb-2"></p>
             <span id="badge-categoria" class="badge mb-2" style="width: fit-content;"></span>
             <span id="badge-vip-libro" class="badge badge-vip mb-2 d-none" style="width: fit-content;"></span>
@@ -72,6 +72,7 @@
             <hr>
 
             <h2 class="h6">Marcadores</h2>
+            <label class="visually-hidden" for="input-pagina-marcador">Número de página para guardar marcador</label>
             <div class="input-group input-group-sm mb-2">
               <input type="number" id="input-pagina-marcador" class="form-control" placeholder="Nº de página" min="1">
               <button id="btn-agregar-marcador" class="btn btn-outline-secondary">Marcar</button>
@@ -177,7 +178,7 @@
               <span class="small fw-bold" id="quiz-progreso">Pregunta 1 de 5</span>
               <span class="small fw-bold" id="quiz-puntos">⭐ 0</span>
             </div>
-            <h3 id="quiz-pregunta" class="h5 mb-3"></h3>
+            <h3 id="quiz-pregunta" class="h5 mb-3">Pregunta del quiz</h3>
             <div id="quiz-opciones" class="d-grid gap-2"></div>
             <div id="quiz-retroalimentacion" class="mt-3 d-none" role="status"></div>
             <div class="text-end mt-3">
@@ -189,7 +190,7 @@
 
           <div id="quiz-resultado" class="d-none text-center py-3">
             <div class="fs-1 mb-2" id="quiz-resultado-emoji" aria-hidden="true">🎉</div>
-            <h3 class="h4 mb-2" id="quiz-resultado-texto"></h3>
+            <h3 class="h4 mb-2" id="quiz-resultado-texto">Resultado del quiz</h3>
             <div id="quiz-resultado-estrellas" class="fs-2 mb-3" aria-hidden="true"></div>
             <button id="btn-quiz-reintentar" class="btn btn-outline-primary">
               <i class="bi bi-arrow-repeat"></i> Volver a jugar
