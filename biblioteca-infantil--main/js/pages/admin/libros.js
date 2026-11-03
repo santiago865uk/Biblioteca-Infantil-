@@ -263,7 +263,7 @@ function limpiarCampoAnio(input) {
 function validarAnioPublicacion(valor) {
   if (!valor) return { valor: null, error: null }
   if (!/^\d{1,4}$/.test(valor)) return { valor: null, error: 'El año solo puede tener números.' }
-  const numero = Number.parseInt(valor, 10)
+  const numero = parseInt(valor, 10)
   if (numero > 2027) return { valor: null, error: 'El año de publicación no puede ser mayor a 2027.' }
   return { valor: numero, error: null }
 }
@@ -446,7 +446,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // exige que sea mayor a 0, pero un libro VIP con costo 0 no tendría
     // sentido de negocio).
     const esVip = document.getElementById('campo-es-vip').checked
-    const costoCreditos = Number.parseInt(document.getElementById('campo-costo-creditos').value, 10)
+    const costoCreditos = parseInt(document.getElementById('campo-costo-creditos').value, 10)
     if (esVip && (isNaN(costoCreditos) || costoCreditos < 1)) {
       mostrarError('Ingresa un costo en créditos válido (mínimo 1) para un libro VIP.')
       return

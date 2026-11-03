@@ -26,7 +26,7 @@ function validarAnioNacimiento(texto) {
   if (!texto) return { valor: null, error: null }
   if (!/^\d{4}$/.test(texto)) return { valor: null, error: 'Escribe un año válido de 4 dígitos.' }
 
-  const anio = Number.parseInt(texto, 10)
+  const anio = parseInt(texto, 10)
   if (anio > ANIO_ACTUAL) return { valor: null, error: 'El año de nacimiento no puede ser en el futuro.' }
   if (anio < ANIO_MINIMO_NACIMIENTO) return { valor: null, error: 'Escribe un año de nacimiento válido.' }
 

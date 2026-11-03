@@ -47,21 +47,13 @@ async function verificarEnlaceRecuperacion() {
       }
     })
 
-    void obtenerSesionActual()
-      .then((sesionActual) => {
-        if (!resuelto && sesionActual) {
-          resuelto = true
-          suscripcion.subscription.unsubscribe()
-          resolve(sesionActual)
-        }
-      })
-      .catch(() => {
-        if (!resuelto) {
-          resuelto = true
-          suscripcion.subscription.unsubscribe()
-          resolve(null)
-        }
-      })
+    obtenerSesionActual().then((sesionActual) => {
+      if (!resuelto && sesionActual) {
+        resuelto = true
+        suscripcion.subscription.unsubscribe()
+        resolve(sesionActual)
+      }
+    })
 
     setTimeout(() => {
       if (!resuelto) {
